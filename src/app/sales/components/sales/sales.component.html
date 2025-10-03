@@ -1,0 +1,39 @@
+<div class="price-calculator-container">
+  <div class="price-calculator-card-container">
+    <form [formGroup]="form" class="price-calculator-form">
+      <h2 class="price-calculator-form-title">Calculadora de Precio</h2>
+      <label for="country" class="price-calculator-form-label">País</label>
+      <select id="country" formControlName="country">
+        <option value="" disabled selected>Seleccione el país</option>
+        <option value="BR">Brasil - BR</option>
+        <option value="CL">Chile - CL</option>
+        <option value="MX">México - MX</option>
+        <option value="AR">Argentina - AR</option>
+      </select>
+
+      <label for="amount" class="price-calculator-form-label">Monto base</label>
+      <input id="amount" type="number" formControlName="amount" placeholder="Ingrese monto">
+
+      <button type="button"
+        (click)="calculatePrice()"
+        [disabled]="form.invalid">
+        Calcular
+      </button>
+    </form>
+  </div>
+
+  <div class="price-calculator-card-container">  
+    <div class="price-calculator-result">
+      <h2 class="price-calculator-result-title">Resultado</h2>
+      @if (isLoading) {
+        <app-spinner />
+      }
+      @if (response && !isLoading) {
+        <div class="price-calculator-result-value"><b>País:</b> {{response.country}}</div>
+        <div class="price-calculator-result-value"><b>Monto base:</b> $ {{response.baseAmount | number:'1.2-2':'es-ES'}}</div>
+        <div class="price-calculator-result-value"><b>IVA aplicado:</b> {{response.vatRate * 100}}%</div>
+        <div class="price-calculator-result-value"><b>Monto final:</b> $ {{response.finalAmount | number:'1.2-2':'es-ES'}}</div>
+      }
+    </div>
+  </div>
+</div>
